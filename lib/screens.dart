@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'services/responsive_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -290,245 +291,105 @@ class HomePage extends StatelessWidget {
   Widget _skills() {
     final skills = [
       (
-        title: "Unity",
-        level: "Advanced",
+        logo: "assets/logos/unity.svg",
+        title: "Unity Engine",
         description:
-            "Gameplay systems, UI, AI, Addressables, optimization and production-ready mobile games.",
-        features: [
-          "Addressables",
-          "UI Toolkit",
-          "Animation",
-          "Physics",
-          "AI",
-          "Optimization"
-        ],
+            "Built production-ready mobile games with gameplay systems, AI, UI, Addressables, and performance optimization.",
       ),
       (
-        title: "C#",
-        level: "Advanced",
+        logo: "assets/logos/csharp.svg",
+        title: "C# Programming",
         description:
-            "Object-Oriented Programming, clean architecture, events, async programming and reusable systems.",
-        features: [
-          "OOP",
-          "SOLID",
-          "Events",
-          "Generics",
-          "LINQ",
-        ],
+            "Developed scalable game systems using object-oriented programming, events, generics, async programming, and clean architecture.",
       ),
       (
-        title: "Firebase",
-        level: "Advanced",
-        description:
-            "Complete integration for production apps and games.",
-        features: [
-          "Analytics",
-          "Remote Config",
-          "Crashlytics",
-          "Authentication",
-        ],
-      ),
-      (
-        title: "Ad Mediation",
-        level: "Advanced",
-        description:
-            "Monetization, rewarded ads, interstitials and banner management.",
-        features: [
-          "AdMob",
-          "Rewarded",
-          "Interstitial",
-          "Banner",
-        ],
-      ),
-      (
-        title: "Analytics",
-        level: "Advanced",
-        description:
-            "Event tracking, funnels and player behaviour analysis.",
-        features: [
-          "Firebase Analytics",
-          "Custom Events",
-          "User Properties",
-        ],
-      ),
-      (
+        logo: "assets/logos/git.svg",
         title: "Git",
-        level: "Intermediate",
         description:
-            "Version control, branching and collaborative workflows.",
-        features: [
-          "GitHub",
-          "Branches",
-          "Pull Requests",
-        ],
+            "Managed source code using Git, branching strategies, pull requests, and version control.",
       ),
       (
+        logo: "assets/logos/blender.svg",
         title: "Blender",
-        level: "Intermediate",
         description:
-            "Basic modelling and editing for game assets.",
-        features: [
-          "Low Poly",
-          "UV",
-          "Materials",
-        ],
+            "Created and edited low-poly assets, UV maps, and materials for mobile games.",
       ),
       (
+        logo: "assets/logos/photoshop.svg",
         title: "Adobe Photoshop",
-        level: "Intermediate",
         description:
-            "Texture editing, UI assets and marketing graphics.",
-        features: [
-          "UI",
-          "Textures",
-          "Icons",
-        ],
+            "Designed UI assets, textures, icons, and promotional graphics for games.",
       ),
       (
+        logo: "assets/logos/analytics.svg",
+        title: "Google Analytics",
+        description:
+            "Tracked player behavior using custom events, funnels, retention, and user analytics.",
+      ),
+      (
+        logo: "assets/logos/ads.svg",
+        title: "Google Mobile Ads",
+        description:
+            "Integrated rewarded, interstitial, banner, and app open ads for mobile game monetization.",
+      ),
+      (
+        logo: "assets/logos/google.svg",
         title: "Google Play Services",
-        level: "Advanced",
         description:
-            "Publishing and Play Console integrations.",
-        features: [
-          "Play Games",
-          "Billing",
-          "Signing",
-        ],
+            "Integrated Play Games, Play Billing, achievements, and publishing workflows.",
       ),
       (
-        title: "HTML",
-        level: "Intermediate",
+        logo: "assets/logos/firebase.svg",
+        title: "Firebase",
         description:
-            "Responsive webpage layouts and semantic markup.",
-        features: [
-          "Responsive",
-          "SEO",
-        ],
+            "Integrated Firebase services including Analytics, Remote Config, Authentication, and Crashlytics.",
       ),
       (
-        title: "CSS",
-        level: "Intermediate",
+        logo: "assets/logos/html.svg",
+        title: "HTML5",
         description:
-            "Modern responsive layouts and animations.",
-        features: [
-          "Flexbox",
-          "Grid",
-        ],
+            "Built semantic and responsive web pages using modern HTML5 standards.",
       ),
       (
+        logo: "assets/logos/css.svg",
+        title: "CSS3",
+        description:
+            "Created responsive layouts with Flexbox, Grid, and modern CSS features.",
+      ),
+      (
+        logo: "assets/logos/js.svg",
         title: "JavaScript",
-        level: "Beginner",
         description:
-            "Interactive web functionality and DOM manipulation.",
-        features: [
-          "DOM",
-          "ES6",
-        ],
+            "Developed interactive web functionality using modern JavaScript and DOM manipulation.",
       ),
     ];
 
-    final int columns = responsive.isDesktop
-        ? 4
-        : responsive.isTablet
-            ? 2
-            : 1;
+   return LayoutBuilder(
+      builder: (context, constraints) {
+        const cardWidth = 350.0;
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: skills.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: columns,
-        crossAxisSpacing: responsive.gap,
-        mainAxisSpacing: responsive.gap,
-        childAspectRatio: responsive.isDesktop
-            ? 1.18
-            : responsive.isTablet
-                ? 1.25
-                : 1.45,
-      ),
-      itemBuilder: (_, index) {
-        final skill = skills[index];
+        final columns =
+            (constraints.maxWidth / cardWidth).floor().clamp(1, 10);
 
-        return InkWell(
-          borderRadius: BorderRadius.circular(responsive.radius),
-          onTap: () {
-            // Navigate to skill details page later.
-          },
-          child: Container(
-            padding: EdgeInsets.all(responsive.gap * .7),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(4),
-              borderRadius: BorderRadius.circular(responsive.radius),
-              border: Border.all(
-                color: Colors.white12,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  skill.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: responsive.h3,
-                  ),
+        final spacing = columns > 1
+            ? (constraints.maxWidth - (columns * cardWidth)) / (columns + 1)
+            : (constraints.maxWidth - cardWidth) / 2;
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: spacing),
+          child: Wrap(
+            spacing: spacing,
+            runSpacing: 20,
+            children: skills.map((skill) {
+              return SizedBox(
+                width: cardWidth,
+                child: _skillCard(
+                  logo: skill.logo,
+                  title: skill.title,
+                  description: skill.description,
                 ),
-
-                SizedBox(height: responsive.gap * .2),
-
-                Text(
-                  skill.level,
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: responsive.small,
-                  ),
-                ),
-
-                SizedBox(height: responsive.gap * .4),
-
-                Expanded(
-                  child: Text(
-                    skill.description,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: responsive.small,
-                      height: 1.5,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: responsive.gap * .5),
-
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: skill.features.take(4).map((feature) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: primaryColor.withAlpha(18),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        feature,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: responsive.small * .85,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
+              );
+            }).toList(),
           ),
         );
       },
@@ -536,108 +397,75 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _skillCard({
-    required IconData icon,
+    required String logo,
     required String title,
     required String description,
   }) {
-    final double height = responsive.isMobile
-        ? 170
-        : responsive.isTablet
-            ? 180
-            : 190;
-
     return SizedBox(
-      height: height,
+      width: 350,
+      height: 250,
       child: Card(
         color: Colors.white.withAlpha(5),
-        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(responsive.radius),
           side: const BorderSide(color: Colors.white12),
         ),
         clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(responsive.radius),
-          onTap: () {
-            // Open skill details page
-          },
-          child: Padding(
-            padding: EdgeInsets.all(responsive.gap * .8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// Icon + Title
-                Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: primaryColor.withAlpha(15),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        icon,
-                        color: primaryColor,
-                        size: 24,
-                      ),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(8),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-
-                    SizedBox(width: responsive.gap * .6),
-
-                    Expanded(
-                      child: Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: responsive.body,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: responsive.gap * .8),
-
-                Expanded(
-                  child: Text(
-                    description,
-                    maxLines: responsive.isMobile ? 3 : 4,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: responsive.small,
-                      height: 1.45,
+                    child: SvgPicture.asset(
+                      logo,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                ),
 
-                SizedBox(height: responsive.gap * .5),
+                  const SizedBox(width: 20),
 
-                Row(
-                  children: [
-                    Text(
-                      "View Details",
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: responsive.small,
-                      ),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: responsive.body,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(width: 6),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: primaryColor,
-                      size: 18,
-                    ),
-                  ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              Center(
+                child: Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize:18,
+                  ),
                 ),
-              ],
-            ),
-          ),
+              ),
+            ],
+          )
         ),
       ),
     );

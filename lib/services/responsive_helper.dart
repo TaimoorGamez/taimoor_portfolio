@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final responsiveProvider =
-    NotifierProvider<ResponsiveNotifier, ResponsiveState>(
+final responsiveProvider = NotifierProvider<ResponsiveNotifier, ResponsiveState>(
   ResponsiveNotifier.new,
 );
 
@@ -47,17 +46,17 @@ class ResponsiveNotifier extends Notifier<ResponsiveState> {
             ? 48
             : 20;
 
-    // Layout scale
-    final double unit = contentWidth / 390;
-
-    // Typography scale (independent of layout)
-    final double textScale = width / 390;
-
     double clamp(double value, double min, double max) {
       if (value < min) return min;
       if (value > max) return max;
       return value;
     }
+
+    // Layout scale (capped)
+    final double unit = clamp(contentWidth / 390, 1.0, 2.5);
+
+    // Typography scale (independent)
+    final double textScale = clamp(width / 390, 1.0, 2.0);
 
     return ResponsiveState(
       screenWidth: width,
@@ -80,10 +79,11 @@ class ResponsiveNotifier extends Notifier<ResponsiveState> {
       small: clamp(14 * textScale, 14, 18),
 
       // Layout
-      radius: unit * 12,
-      gap: unit * 20,
+      radius: clamp(unit * 12, 12, 24),
+      gap: clamp(unit * 20, 12, 24),
     );
   }
+
 }
 
 class ResponsiveState {
@@ -131,4 +131,3 @@ class ResponsiveState {
   final double radius;
   final double gap;
 }
-

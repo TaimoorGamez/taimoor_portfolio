@@ -40,11 +40,7 @@ class ResponsiveNotifier extends Notifier<ResponsiveState> {
             ? 900
             : width;
 
-    final double horizontalPadding = desktop
-        ? 80
-        : tablet
-            ? 48
-            : 20;
+    final double horizontalPadding = 20;
 
     double clamp(double value, double min, double max) {
       if (value < min) return min;

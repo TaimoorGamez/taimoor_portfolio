@@ -104,6 +104,33 @@ class HomePage extends StatelessWidget {
     ),
   ];
 
+  final List<Project> projects = [
+    Project(
+      image: "assets/thumbnails/idle.jpg",
+      name: "Idle Vlogger",
+    ),
+    Project(
+      image: "assets/thumbnails/paint.jpg",
+      name: "Paint Sort Art",
+    ),
+    Project(
+      image: "assets/thumbnails/police.jpg",
+      name: "Police Pursuit",
+    ),
+    Project(
+      image: "assets/thumbnails/tattoo.jpg",
+      name: "Tattoo Shop",
+    ),
+    Project(
+      image: "assets/thumbnails/ship.jpg",
+      name: "Ship Jam",
+    ),
+    Project(
+      image: "assets/thumbnails/ludo.jpg",
+      name: "Ludo",
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +156,7 @@ class HomePage extends StatelessWidget {
 
                 SizedBox(height: responsive.gap),
 
-                // _projects(),
+                _projects(),
 
                 SizedBox(height: responsive.gap * 3),
 
@@ -380,62 +407,65 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // Widget _projectCard({
-  //   required String image,
-  //   required String name,
-  // }) {
-  //   return SizedBox(
-  //     width: 350,
-  //     height: 250,
-  //     child: Card(
-  //       color: Colors.white.withAlpha(5),
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(responsive.radius),
-  //         side: const BorderSide(color: Colors.white12),
-  //       ),
-  //       clipBehavior: Clip.antiAlias,
-  //       child: Column(
-  //         children: [
-  //           Expanded(
-  //             child: Stack(
-  //               children: [
-  //                 Positioned.fill(
-  //                   child: Image.asset(
-  //                     image,
-  //                     fit: BoxFit.cover,
-  //                   ),
-  //                 ),
+  Widget _projects() {
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 20,
+        runSpacing: 20,
+        children: projects.map(_projectCard).toList(),
+      ),
+    );
+  }
 
-  //                 Positioned(
-  //                   top: 12,
-  //                   right: 12,
-  //                   child: Container(
-  //                     padding: const EdgeInsets.symmetric(
-  //                       horizontal: 10,
-  //                       vertical: 6,
-  //                     ),
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.black.withAlpha(180),
-  //                       borderRadius: BorderRadius.circular(20),
-  //                     ),
-  //                     child: Text(
-  //                       name,
-  //                       style: const TextStyle(
-  //                         color: Colors.white,
-  //                         fontWeight: FontWeight.w600,
-  //                         fontSize: 14,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _projectCard(Project project) {
+    return SizedBox(
+      width: 400,
+      height: 225,
+      child: Card(
+        color: Colors.white.withAlpha(5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(responsive.radius),
+          side: const BorderSide(color: Colors.white12),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                project.image,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            Positioned(
+              top: 12,
+              right: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(180),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  project.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _contactSection() {
     return Column(

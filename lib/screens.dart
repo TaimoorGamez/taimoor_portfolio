@@ -303,13 +303,16 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _skills() {
-    return Wrap(
-      alignment: WrapAlignment.spaceEvenly,
-      spacing: 20,
-      runSpacing: 20,
-      children: skills.map(_skillCard).toList(),
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 20,
+        runSpacing: 20,
+        children: skills.map(_skillCard).toList(),
+      ),
     );
-}
+  }
 
   Widget _skillCard(Skill skill) {
     return SizedBox(
@@ -474,21 +477,19 @@ class HomePage extends StatelessWidget {
         SizedBox(height: responsive.gap * .3),
 
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(
               Icons.chat,
               color: Colors.white70,
             ),
             SizedBox(width: responsive.gap * .25),
-            Expanded(
-              child: SelectableText(
-                "+92 315 5898130 (WhatsApp Messages Only)",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: responsive.body,
-                  fontWeight: FontWeight.w600,
-                ),
+            SelectableText(
+              "+92 315 5898130 (WhatsApp Messages Only)",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: responsive.body,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

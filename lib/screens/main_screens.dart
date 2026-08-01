@@ -1,7 +1,8 @@
-import 'models.dart';
+import '../models.dart';
+import 'project_screens.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'services/responsive_helper.dart';
+import '../services/responsive_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //---------------Home Screen ---------------------------
@@ -104,37 +105,49 @@ class HomePage extends StatelessWidget {
     ),
   ];
 
+  @override
+  Widget build(BuildContext context) {
+    
   final List<Project> projects = [
     Project(
       image: "assets/thumbnails/idle.jpg",
       name: "Idle Vlogger",
+      onTap: () {
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const IdleVloggerPage(),
+        ),
+      );},
     ),
     Project(
       image: "assets/thumbnails/paint.jpg",
       name: "Paint Sort Art",
+      onTap: () {},
     ),
     Project(
       image: "assets/thumbnails/police.jpg",
       name: "Police Pursuit",
+      onTap: () {},
     ),
     Project(
       image: "assets/thumbnails/tattoo.jpg",
       name: "Tattoo Shop",
+      onTap: () {},
     ),
     Project(
       image: "assets/thumbnails/ship.jpg",
       name: "Ship Jam",
+      onTap: () {},
     ),
     Project(
       image: "assets/thumbnails/ludo.jpg",
       name: "Ludo",
+      onTap: () {},
     ),
   ];
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff0f172a),
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -156,7 +169,7 @@ class HomePage extends StatelessWidget {
 
                 SizedBox(height: responsive.gap),
 
-                _projects(),
+                _projects(projects),
 
                 SizedBox(height: responsive.gap * 3),
 
@@ -407,7 +420,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _projects() {
+  Widget _projects(List<Project> projects) {
     return SizedBox(
       width: double.infinity,
       child: Wrap(
@@ -420,48 +433,51 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _projectCard(Project project) {
-    return SizedBox(
-      width: 400,
-      height: 225,
-      child: Card(
-        color: Colors.white.withAlpha(5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(responsive.radius),
-          side: const BorderSide(color: Colors.white12),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                project.image,
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: project.onTap,
+      child: SizedBox(
+        width: 400,
+        height: 225,
+        child: Card(
+          color: Colors.white.withAlpha(5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(responsive.radius),
+            side: const BorderSide(color: Colors.white12),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  project.image,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
 
-            Positioned(
-              top: 12,
-              right: 12,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(180),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  project.name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(180),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    project.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

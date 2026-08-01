@@ -1,12 +1,15 @@
+import 'dart:ui';
 
 //--------------Projects ---------------
 class Project {
-  final String image;
   final String name;
+  final String image;
+  final VoidCallback? onTap;
 
   const Project({
-    required this.image,
     required this.name,
+    required this.image,
+    this.onTap,
   });
 }
 

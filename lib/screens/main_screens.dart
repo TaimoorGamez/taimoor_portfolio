@@ -121,13 +121,19 @@ class HomePage extends StatelessWidget {
       );},
     ),
     Project(
-      image: "assets/thumbnails/paint.jpg",
-      name: "Paint Sort Art",
-      onTap: () {},
+      image: "assets/thumbnails/police.jpg",
+      name: "Endless Terrain Kit",
+      onTap: () {
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const EndlessTerrainPage(),
+        ),
+      );},
     ),
     Project(
-      image: "assets/thumbnails/police.jpg",
-      name: "Police Pursuit",
+      image: "assets/thumbnails/paint.jpg",
+      name: "Paint Sort Art",
       onTap: () {},
     ),
     Project(

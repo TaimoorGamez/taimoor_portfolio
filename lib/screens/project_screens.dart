@@ -22,9 +22,6 @@ class IdleVloggerPage extends ConsumerWidget {
     final responsive = ref.watch(responsiveProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Idle Vlogger"),
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(
@@ -36,11 +33,16 @@ class IdleVloggerPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                    _projectHeader(context),
+
+                    SizedBox(height: responsive.gap),
+
                     responsive.isDesktop
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+
                         _thumbnail(),
 
                         SizedBox(width: responsive.gap * 1.5),
@@ -122,7 +124,32 @@ class IdleVloggerPage extends ConsumerWidget {
     );
   }
 
-    Widget _thumbnail() {
+Widget _projectHeader(BuildContext context) {
+  return Row(
+    children: [
+      IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.home_rounded, size: 34),
+      ),
+
+      const SizedBox(width: 10),
+
+      const Expanded(
+        child: Text(
+          "Idle Vlogger",
+          textAlign: TextAlign.center,  
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _thumbnail() {
     return ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: SizedBox(
@@ -136,20 +163,10 @@ class IdleVloggerPage extends ConsumerWidget {
     );
     }
 
-    Widget _projectInfo() {
+Widget _projectInfo() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        const Text(
-            "Idle Vlogger",
-            style: TextStyle(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-            ),
-        ),
-
-        const SizedBox(height: 16),
-
         const Text(
             "A complete idle simulation prototype developed in Unity using modular gameplay architecture, reusable systems, event-driven programming, Addressables, object pooling, and scalable gameplay design. The project focuses on clean architecture and maintainable code rather than game-specific implementation.",
             style: TextStyle(
@@ -1197,3 +1214,396 @@ Widget _projectStructureSection(WidgetRef ref) {
 }
 
 }
+
+//------------------ Endless World Kit-------------
+class EndlessTerrainPage extends ConsumerWidget {
+  const EndlessTerrainPage({super.key});
+
+  static const String githubUrl = "https://github.com/TaimoorGamez/PolicePursuit.git";
+
+  Future<void> _openGithub() async {
+    final uri = Uri.parse(githubUrl);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception("Could not launch GitHub");
+    }
+  }
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref) {
+    final responsive = ref.watch(responsiveProvider);
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: responsive.contentWidth,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(responsive.gap),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _projectHeader(context),
+
+                    SizedBox(height: responsive.gap),
+
+                    responsive.isDesktop
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        _thumbnail(),
+
+                        SizedBox(width: responsive.gap * 1.5),
+
+                        Expanded(
+                            child: _projectInfo(),
+                        ),
+                        ],
+                    )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        _thumbnail(),
+
+                        SizedBox(height: responsive.gap),
+
+                        _projectInfo(),
+                        ],
+                    ),
+
+                  SizedBox(height: responsive.gap * 2.5),
+
+                  _endlessTerrainFrameworkSection(ref),
+                  
+                  // Other sections...
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+Widget _projectHeader(BuildContext context) {
+  return Row(
+    children: [
+      IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.home_rounded, size: 34),
+      ),
+
+      const SizedBox(width: 10),
+
+      const Expanded(
+        child: Text(
+          "Endless Terrain Kit",
+          textAlign: TextAlign.center,  
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _thumbnail() {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+          width: 400,
+          height: 225,
+          child: Image.asset(
+              "assets/thumbnails/police.jpg",
+              fit: BoxFit.cover,
+          ),
+          ),
+      );
+    }
+
+Widget _projectInfo() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+        const Text(
+            "A complete idle simulation prototype developed in Unity using modular gameplay architecture, reusable systems, event-driven programming, Addressables, object pooling, and scalable gameplay design. The project focuses on clean architecture and maintainable code rather than game-specific implementation.",
+            style: TextStyle(
+            fontSize: 16,
+            height: 1.7,
+            ),
+        ),
+
+        const SizedBox(height: 24),
+
+        SizedBox(
+        height: 48,
+        child: ElevatedButton.icon(
+            onPressed: _openGithub,
+            icon: const Icon(Icons.code),
+            label: const Text("View GitHub Repository"),
+            style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff1e293b), // Dark slate
+        foregroundColor: Colors.white,
+        elevation: 0,
+        side: BorderSide(
+            color: const Color(0xff111827),
+            width: 1.2,
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 14,
+        )))),
+        ],
+    );
+    }
+
+Widget _zoomableImage({
+  required WidgetRef ref,
+  required String asset,
+}) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: ref.context,
+        barrierColor: Colors.black87,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(20),
+            child: Stack(
+              children: [
+                InteractiveViewer(
+                  minScale: 1,
+                  maxScale: 5,
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(responsive.radius),
+                    child: Image.asset(asset),
+                  ),
+                ),
+
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.pop(ref.context),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+    child: Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(responsive.radius),
+          child: Image.asset(
+            asset,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        Positioned(
+          right: 12,
+          bottom: 12,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black54,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: const Icon(
+              Icons.zoom_in,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _conceptCard({
+  required WidgetRef ref,
+  required String title,
+  required String description,
+}) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return Padding(
+    padding: EdgeInsets.only(bottom: responsive.gap),
+    child: Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(responsive.gap),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(8),
+        borderRadius: BorderRadius.circular(responsive.radius),
+        border: Border.all(color: Colors.white12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: responsive.h3,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          SizedBox(height: responsive.gap * .35),
+
+          Text(
+            description,
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: responsive.body,
+              height: 1.7,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _endlessTerrainFrameworkSection(WidgetRef ref) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/endless/ground.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Endless World Streaming",
+        description:
+            "A reusable infinite world framework that repositions a column or row of grid around the player, creating the illusion of an endless world while keeping memory usage constant.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Dynamic Tile Recycling",
+        description:
+            "Terrain tiles are recycled instead of instantiated or destroyed. Existing tiles are repositioned intelligently whenever the player crosses tile boundaries, eliminating unnecessary allocations.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Grid-Based World Management",
+        description:
+            "A dictionary-driven grid tracks all active terrain tiles and reorganizes them around the player's current position, providing efficient and scalable world streaming.",
+      ),     
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/endless/car.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Modular Character Framework",
+        description:
+            "The gameplay architecture is independent of the controlled character. The player can be a human, animal, zombie, superhero, vehicle, boat, aircraft, or any custom actor by replacing the controller while reusing the same endless world, AI, camera, and gameplay systems.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/endless/ai.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Extensible AI Framework",
+        description:
+            "Enemy vehicles inherit from a shared AI controller, making it easy to build specialized behaviors for police, military units, zombies, bosses, or custom enemy types while reusing common movement logic.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/endless/so.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "ScriptableObject Event Architecture",
+        description:
+            "Gameplay communication is built on reusable ScriptableObject events instead of direct object references. UI, player controllers, AI, audio, cameras, and gameplay systems communicate by raising shared events, greatly reducing dependencies while making systems reusable across multiple projects.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Scriptable Runtime Variables",
+        description:
+            "Runtime values such as player upgrades, selected vehicles, game state, and shared gameplay variables are stored inside reusable ScriptableObjects. Multiple systems can read and modify the same data without requiring singleton managers or scene references.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/endless/db.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Scriptable Persistent Database",
+        description:
+            "Persistent variables extend the same ScriptableObject workflow by automatically synchronizing with PlayerPrefs. Designers work with Scriptable assets while save/load operations remain completely transparent, providing reusable persistent data without custom save logic in gameplay scripts.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Reusable Game Framework",
+        description:
+            "Designed as a reusable foundation rather than a single game. The framework can power endless driving, zombie survival, military combat, rescue missions, delivery games, and open-world exploration. By replacing terrain assets, the same architecture can also be adapted from 2D to 3D projects.",
+      ),
+    ],
+  );
+}
+
+}
+

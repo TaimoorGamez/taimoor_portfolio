@@ -59,10 +59,11 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/idle/
+    - assets/thumbnails/
+    - assets/endless/
     - assets/images/
     - assets/logos/
-    - assets/thumbnails/
+    - assets/idle/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

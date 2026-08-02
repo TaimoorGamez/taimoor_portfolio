@@ -156,12 +156,24 @@ class HomePage extends StatelessWidget {
     Project(
       image: "assets/thumbnails/ship.jpg",
       name: "Ship Jam",
-      onTap: () {},
+      onTap: () { 
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const ShipJamPage(),
+        ),
+      );},
     ),
     Project(
       image: "assets/thumbnails/ludo.jpg",
       name: "Ludo",
-      onTap: () {},
+      onTap: () { 
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const LudoPage(),
+        ),
+      );},
     ),
   ];
 

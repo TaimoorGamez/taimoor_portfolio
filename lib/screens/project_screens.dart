@@ -1333,11 +1333,11 @@ Widget _projectInfo() {
         children: [
 
         const Text(
-            "A complete idle simulation prototype developed in Unity using modular gameplay architecture, reusable systems, event-driven programming, Addressables, object pooling, and scalable gameplay design. The project focuses on clean architecture and maintainable code rather than game-specific implementation.",
-            style: TextStyle(
+          "A modular Unity framework focused on endless world streaming, reusable gameplay architecture, ScriptableObject-driven systems, extensible AI, and scalable world management. Built to rapidly create endless driving, survival, combat, and exploration games by reusing the same core systems.",
+          style: TextStyle(
             fontSize: 16,
             height: 1.7,
-            ),
+          ),
         ),
 
         const SizedBox(height: 24),
@@ -1607,3 +1607,635 @@ Widget _endlessTerrainFrameworkSection(WidgetRef ref) {
 
 }
 
+//------------------ Paint Sort Art-------------
+class PaintSortArtPage extends ConsumerWidget {
+  const PaintSortArtPage({super.key});
+
+  static const String githubUrl = "https://github.com/TaimoorGamez/Water-Sort.git";
+
+  Future<void> _openGithub() async {
+    final uri = Uri.parse(githubUrl);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception("Could not launch GitHub");
+    }
+  }
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref) {
+    final responsive = ref.watch(responsiveProvider);
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: responsive.contentWidth,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(responsive.gap),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _projectHeader(context),
+
+                    SizedBox(height: responsive.gap),
+
+                    responsive.isDesktop
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        _thumbnail(),
+
+                        SizedBox(width: responsive.gap * 1.5),
+
+                        Expanded(
+                            child: _projectInfo(),
+                        ),
+                        ],
+                    )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        _thumbnail(),
+
+                        SizedBox(height: responsive.gap),
+
+                        _projectInfo(),
+                        ],
+                    ),
+
+                  SizedBox(height: responsive.gap * 2.5),
+
+                  _waterSortFrameworkSection(ref),
+                  
+                  // Other sections...
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+Widget _projectHeader(BuildContext context) {
+  return Row(
+    children: [
+      IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.home_rounded, size: 34),
+      ),
+
+      const SizedBox(width: 10),
+
+      const Expanded(
+        child: Text(
+          "Paint Sort Art",
+          textAlign: TextAlign.center,  
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _thumbnail() {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+          width: 400,
+          height: 225,
+          child: Image.asset(
+              "assets/thumbnails/paint.jpg",
+              fit: BoxFit.cover,
+          ),
+          ),
+      );
+    }
+
+Widget _projectInfo() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+        const Text(
+          "A modular casual game framework developed in Unity featuring a data-driven water sort engine, texture-based coloring system, custom shaders, reusable UI architecture, Addressables-based content streaming, ScriptableObject runtime database, event-driven communication, and scalable gameplay systems including daily rewards, tasks, progression, and weighted reward mechanics. Designed for rapid reskinning and reuse across multiple puzzle and casual game projects.",
+          style: TextStyle(
+            fontSize: 16,
+            height: 1.7,
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        SizedBox(
+        height: 48,
+        child: ElevatedButton.icon(
+            onPressed: _openGithub,
+            icon: const Icon(Icons.code),
+            label: const Text("View GitHub Repository"),
+            style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff1e293b), // Dark slate
+        foregroundColor: Colors.white,
+        elevation: 0,
+        side: BorderSide(
+            color: const Color(0xff111827),
+            width: 1.2,
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 14,
+        )))),
+        ],
+    );
+    }
+
+Widget _zoomableImage({
+  required WidgetRef ref,
+  required String asset,
+}) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return GestureDetector(
+    onTap: () {
+      showDialog(
+        context: ref.context,
+        barrierColor: Colors.black87,
+        builder: (_) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(20),
+            child: Stack(
+              children: [
+                InteractiveViewer(
+                  minScale: 1,
+                  maxScale: 5,
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(responsive.radius),
+                    child: Image.asset(asset),
+                  ),
+                ),
+
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.pop(ref.context),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+    child: Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(responsive.radius),
+          child: Image.asset(
+            asset,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        Positioned(
+          right: 12,
+          bottom: 12,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black54,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: const Icon(
+              Icons.zoom_in,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _conceptCard({
+  required WidgetRef ref,
+  required String title,
+  required String description,
+}) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return Padding(
+    padding: EdgeInsets.only(bottom: responsive.gap),
+    child: Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(responsive.gap),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(8),
+        borderRadius: BorderRadius.circular(responsive.radius),
+        border: Border.all(color: Colors.white12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: responsive.h3,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          SizedBox(height: responsive.gap * .35),
+
+          Text(
+            description,
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: responsive.body,
+              height: 1.7,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _waterSortFrameworkSection(WidgetRef ref) {
+  final responsive = ref.watch(responsiveProvider);
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/sort.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Modular Water Sort Framework",
+        description:
+            "Designed a reusable puzzle framework where gameplay logic is separated from liquid rendering and animations. The architecture allows the core sorting mechanics to be reused with different visual themes and puzzle variations.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Gameplay & Visual Separation",
+        description:
+            "Liquid rendering, particle effects, shaders, animations, and gameplay logic are implemented as independent systems. Visuals can be replaced without modifying the underlying sorting mechanics.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/undo.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Move History & Undo System",
+        description:
+            "Implemented a stack-based undo architecture that records gameplay actions and accurately restores previous puzzle states while maintaining animation consistency.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/addressables_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Addressables & Runtime Cosmetics",
+        description:
+            "Integrated Unity Addressables to load cap cosmetics at runtime, allowing cosmetic content to remain modular without hard scene dependencies.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/shader_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Custom Shader Framework",
+        description:
+            "Developed multiple Shader Graph shaders specifically for the framework, including animated liquid rendering, multi-color painting materials, interactive color bowls, particle shaders, and gameplay-driven visual effects. Shader properties are updated at runtime through MaterialPropertyBlocks for efficient per-instance rendering without duplicating materials.",
+      ),
+      
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/lvl_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Puzzle-to-Coloring Gameplay Transition",
+        description:
+            "Designed a two-stage gameplay framework where completing the water sorting puzzle seamlessly transitions into an interactive coloring experience. The sorting mechanics and coloring system operate independently while sharing progression through reusable game events.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/coloring_lvl_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Modular Coloring Framework",
+        description:
+            "Built the coloring system as a standalone framework rather than a level-specific implementation. Coloring stages, artwork, brushes, reference images, and progression are completely data-driven, allowing new coloring content to be added without modifying gameplay code.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Runtime Brush & Asset Loading",
+        description:
+            "Brushes, reference images, and coloring artwork are loaded dynamically using Unity Addressables. This keeps the framework lightweight while allowing new assets and cosmetic variations to be added without rebuilding gameplay scenes.",
+      ),
+
+      _conceptCard(
+        ref: ref,
+        title: "Texture-Based Pixel Filling",
+        description:
+            "Implemented runtime texture painting by directly modifying Texture2D pixel data. Each artwork is divided into multiple paintable regions, enabling accurate color filling while preserving artwork transparency and visual quality.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/ui_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Reusable UI State Framework",
+        description:
+            "Created a modular UI architecture where every screen is loaded independently through Addressables. Screens transition with reusable animations while memory cleanup, asset release, and scene lifecycle are managed automatically.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/gradient_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Custom UI Gradient Framework",
+        description:
+            "Developed a reusable UI gradient component extending Unity's BaseMeshEffect to generate real-time gradients for any UI element. The system supports multiple gradient directions, blend modes, runtime editing, and designer-friendly workflows without requiring custom UI textures or shaders. It was used throughout the game's interface to create a consistent visual style while keeping UI assets lightweight.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/task_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Daily Tasks & Reward Framework",
+        description:
+            "Implemented a reusable daily task system supporting randomized objectives, persistent progress tracking, reward claiming, notification badges, and event-driven gameplay integration that can be reused across future projects.",
+      ),      
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/capture_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Persistent Artwork Capture",
+        description:
+            "Captured completed paintings directly from a dedicated render camera, generated runtime thumbnails, displayed them on the completion screen, and automatically saved finished artwork into the device gallery for later viewing.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/daily_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Daily Reward Framework",
+        description:
+            "Implemented a configurable daily reward system supporting reward streaks, countdown timers, reward multipliers, special milestone rewards, persistent progression, and event-driven reward claiming. The framework can be reused in any mobile game with different reward types.",
+      ),
+
+      SizedBox(height: responsive.gap),
+
+      _zoomableImage(
+        ref: ref,
+        asset: "assets/paint/spin_paint.jpg",
+      ),
+
+      SizedBox(height: responsive.gap * 1.5),
+
+      _conceptCard(
+        ref: ref,
+        title: "Weighted Spin Wheel Framework",
+        description:
+            "Developed a configurable spin wheel framework that generates wheel segments from reward data, supports weighted reward probabilities, reusable reward types, animated spinning, and independent reward handling. The system can be reused for lucky wheels, prize wheels, or event rewards across different games.",
+      ),
+
+    ],
+  );
+}
+
+}
+
+//------------------ Tattoo Shop -------------
+class TattooShopPage extends ConsumerWidget {
+  const TattooShopPage({super.key});
+
+  static const String githubUrl = "https://play.google.com/store/apps/details?id=com.fc.hz.ink.art.tattoo.drawing.asmr&hl=en";
+
+  Future<void> _openGithub() async {
+    final uri = Uri.parse(githubUrl);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception("Could not launch GitHub");
+    }
+  }
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref) {
+    final responsive = ref.watch(responsiveProvider);
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: responsive.contentWidth,
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(responsive.gap),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _projectHeader(context),
+
+                    SizedBox(height: responsive.gap),
+
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                        _thumbnail(),
+
+                        SizedBox(height: responsive.gap),
+
+                        _projectInfo(),
+                        ],
+                    ),
+                  
+                  // Other sections...
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+Widget _projectHeader(BuildContext context) {
+  return Row(
+    children: [
+      IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icon(Icons.home_rounded, size: 34),
+      ),
+
+      const SizedBox(width: 10),
+
+      const Expanded(
+        child: Text(
+          "Tattoo Shop",
+          textAlign: TextAlign.center,  
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _thumbnail() {
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+          width: 400,
+          height: 225,
+          child: Image.asset(
+              "assets/thumbnails/tattoo.jpg",
+              fit: BoxFit.cover,
+          ),
+          ),
+      );
+    }
+
+Widget _projectInfo() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+        const Text(
+        "A published tattoo simulation game where players create tattoos by selecting ink colors, switching tattoo machines, and progressively completing detailed artwork through texture-based painting. The project features reusable pixel-level coloring technology, multi-stage tattoo progression, ScriptableObject-based architecture, event-driven gameplay systems, persistent progression, economy, daily rewards, daily tasks, spin wheel, unlockable cosmetics, and production-ready UI designed for scalable mobile game development. The source code is not available because the project belongs to my previous employer, but the published Google Play version is available below.",
+        style: TextStyle(
+          fontSize: 16,
+          height: 1.7,
+        ),
+      ),
+
+        const SizedBox(height: 24),
+
+        SizedBox(
+        height: 48,
+        child: ElevatedButton.icon(
+            onPressed: _openGithub,
+            icon: const Icon(Icons.code),
+            label: const Text("View on Play Store"),
+            style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff1e293b), // Dark slate
+        foregroundColor: Colors.white,
+        elevation: 0,
+        side: BorderSide(
+            color: const Color(0xff111827),
+            width: 1.2,
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 14,
+        )))),
+        ],
+    );
+  }
+}

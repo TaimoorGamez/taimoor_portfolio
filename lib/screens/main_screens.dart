@@ -134,12 +134,24 @@ class HomePage extends StatelessWidget {
     Project(
       image: "assets/thumbnails/paint.jpg",
       name: "Paint Sort Art",
-      onTap: () {},
+      onTap: () { 
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const PaintSortArtPage(),
+        ),
+      );},
     ),
     Project(
       image: "assets/thumbnails/tattoo.jpg",
       name: "Tattoo Shop",
-      onTap: () {},
+      onTap: () { 
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const TattooShopPage(),
+        ),
+      );},
     ),
     Project(
       image: "assets/thumbnails/ship.jpg",
@@ -348,6 +360,69 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _projects(List<Project> projects) {
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 20,
+        runSpacing: 20,
+        children: projects.map(_projectCard).toList(),
+      ),
+    );
+  }
+
+  Widget _projectCard(Project project) {
+    return GestureDetector(
+      onTap: project.onTap,
+      child: SizedBox(
+        width: 400,
+        height: 225,
+        child: Card(
+          color: Colors.white.withAlpha(5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(responsive.radius),
+            side: const BorderSide(color: Colors.white12),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  project.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(180),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    project.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _skills() {
     return SizedBox(
       width: double.infinity,
@@ -407,78 +482,17 @@ class HomePage extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               Center(
                 child: Text(
                   skill.description,
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 18,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _projects(List<Project> projects) {
-    return SizedBox(
-      width: double.infinity,
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        spacing: 20,
-        runSpacing: 20,
-        children: projects.map(_projectCard).toList(),
-      ),
-    );
-  }
-
-  Widget _projectCard(Project project) {
-    return GestureDetector(
-      onTap: project.onTap,
-      child: SizedBox(
-        width: 400,
-        height: 225,
-        child: Card(
-          color: Colors.white.withAlpha(5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(responsive.radius),
-            side: const BorderSide(color: Colors.white12),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                  project.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-
-              Positioned(
-                top: 12,
-                right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withAlpha(180),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    project.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
                   ),
                 ),
               ),

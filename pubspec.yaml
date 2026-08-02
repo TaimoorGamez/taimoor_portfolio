@@ -59,6 +59,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/paint/
     - assets/thumbnails/
     - assets/endless/
     - assets/images/

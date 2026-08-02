@@ -9,7 +9,7 @@ class Project {
   const Project({
     required this.name,
     required this.image,
-    this.onTap,
+    required this.onTap,
   });
 }
 
@@ -17,7 +17,7 @@ class Project {
 class Skill {
   final String logo;
   final String title;
-  final String description;
+  final List<String> description;
 
   const Skill({
     required this.logo,

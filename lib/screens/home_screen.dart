@@ -3,7 +3,8 @@ import 'skill_screen.dart';
 import 'project_screens.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import '../services/responsive_helper.dart';
+import '../services/responsive_helper.dart';  
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //---------------Home Screen ---------------------------
@@ -572,7 +573,9 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _contactSection() {
-    return Column(
+    final isDesktop = responsive.isDesktop; // or your own breakpoint
+
+    final contactInfo = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _sectionTitle("Let's Work Together"),
@@ -588,14 +591,11 @@ class HomePage extends StatelessWidget {
           ),
         ),
 
-        SizedBox(height: responsive.gap * 0.3),
+        SizedBox(height: responsive.gap * .3),
 
         Row(
           children: [
-            const Icon(
-              Icons.email,
-              color: Colors.white70,
-            ),
+            const Icon(Icons.email, color: Colors.white70),
             SizedBox(width: responsive.gap * .25),
             SelectableText(
               "taimoorgamez@gmail.com",
@@ -611,12 +611,8 @@ class HomePage extends StatelessWidget {
         SizedBox(height: responsive.gap * .3),
 
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.chat,
-              color: Colors.white70,
-            ),
+            const Icon(Icons.chat, color: Colors.white70),
             SizedBox(width: responsive.gap * .25),
             SelectableText(
               "+92 315 5898130 (WhatsApp Messages Only)",
@@ -629,6 +625,54 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ],
+    );
+
+    final resumeButton = SizedBox(
+      child: ElevatedButton.icon(
+        onPressed: _downloadResume,
+        icon: const Icon(Icons.download),
+        label: const Text("Download Resume"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 10,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+
+    if (isDesktop) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          contactInfo,
+          SizedBox(width: responsive.gap * 2),
+          resumeButton,
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        contactInfo,
+        SizedBox(height: responsive.gap),
+        Center(child: resumeButton),
+      ],
+    );
+  }
+
+  Future<void> _downloadResume() async {
+    final uri = Uri.parse('/assets/pdf/resume.pdf');
+
+    await launchUrl(
+      uri,
+      webOnlyWindowName: '_blank',
     );
   }
 
